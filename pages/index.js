@@ -67,16 +67,18 @@ export default function Home() {
 
         <p className="text-5xl font-bold">Welcome to our game SPELL IT!</p>
         <p className="text-md font-bold">Input your age before you can play!</p>
-        <div className="flex gap-4 justify-center items-center">
+        <form onSubmit={handleSubmit} className="flex gap-4 justify-center items-center">
           <input type="number" placeholder='Input your age...' className="p-4 rounded-md bg-gray-400 placeholder:text-white" name="age" value={getAge} onChange={(e)=> setGetAge(e.target.value)}/>
 
-          <input type="button" value="Submit" onClick={handleSubmit} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer" />
-        </div>
+          <input type="submit" value="Submit" className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer" />
+        </form>
       </div>
     )
   }
 
-  const handleSubmitAnswer = () => {
+  const handleSubmitAnswer = (e) => {
+    e.preventDefault()
+
     if(answer.toUpperCase() === rightAnswer) {
       setSuccessMessage("Correct!")
       setTimeout(() => {
@@ -86,7 +88,7 @@ export default function Home() {
       setErrorMessage("Wrong spelling.")
       setTimeout(() => {
         setErrorMessage()
-      }, 3000)
+      }, 1000)
     }
   }
 
@@ -99,16 +101,16 @@ export default function Home() {
         {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" /> */}
 
         <div className="p-8 bg-white rounded-md shadow-md flex flex-col gap-6 mt-24">
-          {errorMessage && <p className="text-center bg-red-500 text-white px-3 rounded-xl">{errorMessage}</p>}
-          {successAnswer && <p className="text-center bg-green-500 text-white px-3 rounded-xl">{successAnswer}</p>}
           
           <p className="text-sm text-gray-600">Category: {category}</p>
           <p className="text-6xl font-bold text-center">{shuffleWord}</p>
 
-          <span className='flex gap-2'>
+          <form className='flex gap-2' onSubmit={handleSubmitAnswer}>
             <input type="text" placeholder="Guess the word spelling..." className="bg-slate-300 rounded-md p-3 placeholder:text-gray-900 text-xl" value={answer} onChange={(e) => setAnswer(e.target.value)} />
-            <input type="button" value="Submit" className="bg-blue-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-blue-500" onClick={handleSubmitAnswer} />
-          </span>
+            <input type="submit" value="Submit" className="bg-blue-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-blue-500"/>
+          </form>
+          {errorMessage && <p className="text-center bg-red-500 text-white px-3 rounded-xl">{errorMessage}</p>}
+          {successAnswer && <p className="text-center bg-green-500 text-white px-3 rounded-xl">{successAnswer}</p>}
         </div>
       </div>
     </>
