@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Navigation />
-      <div className="bg-gray-100 h-screen">
+      <div className="bg-gray-100 h-screen font-mono">
         <Component {...pageProps} />
       </div>
       <Footer />
