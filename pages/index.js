@@ -188,6 +188,7 @@ export default function Home() {
           <p className="text-2xl">Rules:</p>
           <p className="text-2xl">- 3 Tries only</p>
           <p className="text-2xl">- 3 Skips only</p>
+          <p className="text-2xl">- 2 correct answers to finish the game</p>
         </div>
         <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 my-8">
           <span className="flex flex-col md:flex-row justify-around items-center">

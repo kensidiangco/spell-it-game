@@ -12,7 +12,7 @@ function About() {
         <div className="bg-white p-8 shadow-xl flex flex-col gap-4 rounded-xl">
           <div className="flex flex-col gap-4">
             <p className="text-3xl font-bold">About website.</p>
-            <p className="text-xl mx-8">This website is created for those grade 12 students who will take BSIT on Saint Jude College Manila, we expect that the student who will use this website has a background about programming in python and developing a website using HTML, CSS, and JS</p>
+            <p className="text-xl mx-8">This game \"spell it\" is our project on 3rd year BSIT subject Integrative Programming on Saint Jude College Manila.</p>
           </div>
           <div className="flex flex-col gap-6">
             <p className="text-3xl font-bold">Developers:</p>
