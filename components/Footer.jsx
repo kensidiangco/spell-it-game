@@ -3,10 +3,8 @@ import Link from 'next/link'
 
 function Footer() {
   return (
-    <div className="p-8 bg-black flex justify-center text-white">
-        <Link href="#" passHref>
-            <span className="text-xl font-bold cursor-pointer rounded-md transition transition-delay-1">About us</span>
-        </Link>
+    <div className="p-8 bg-black text-white">
+        <p className="text-sm text-center">Spell it game by Team X7 @2022 | Saint Jude College Manila</p>
     </div>
   )
 }

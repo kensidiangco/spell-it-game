@@ -8,7 +8,7 @@ function Navigation() {
             <span className="p-4 text-xl font-bold cursor-pointer hover:bg-gray-800 rounded-md transition transition-delay-1">Spell It</span>
         </Link>
 
-        <Link href="/" passHref>
+        <Link href="/About" passHref>
             <span className="p-4 text-md font-bold cursor-pointer hover:bg-gray-800 rounded-md transition transition-delay-1">About us</span>
         </Link>
         {/* <Link href="/" passHref>

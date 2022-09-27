@@ -15,16 +15,28 @@ export default function Home() {
   const [category, setCategory] = useState()
   const [answer, setAnswer] = useState()
   const [rightAnswer, setRightAnswer] = useState()
+  const [skipWord, setSkipWord] = useState(0)
+
+  useEffect(() => {
+    const unloadCallback = (event) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
+  
+    window.addEventListener("beforeunload", unloadCallback);
+    return () => window.removeEventListener("beforeunload", unloadCallback);
+  }, []);
 
   const BeginnerWords = {
     "Animals" : [
-      "ELEPHANT", "ZEBRA", "HORSE"
+      "ELEPHANT", "ZEBRA", "HORSE", "DOG", "CAT", "RAT", "TIGER", "MOUSE"
     ],
   }
 
   const mediumWords = {
     "Planets" : [
-      "EARTH", "SATURN", "JUPITER"
+      "EARTH", "SATURN", "JUPITER", "PLUTO", "MECURY", "SUN", "MARS", "VENUS"
     ]
   }
 
@@ -59,7 +71,7 @@ export default function Home() {
         setShuffleWord(pickedWord.split('').sort(function(){return 0.5-Math.random()}).join(''))
       }
     }
-  }, [age, trySubmit, level])
+  }, [age, trySubmit, level, skipWord])
   
   
 
@@ -85,6 +97,7 @@ export default function Home() {
     setTrySubmit(1)
     setAnswer()
     setLevel(1)
+    setSkipWord(0)
   }
 
   if(trySubmit > 3) {
@@ -119,11 +132,11 @@ export default function Home() {
 
   if(!age) {
     return (
-      <div className="bg-black h-screen text-white flex flex-col gap-6 justify-center items-center font-mono">
+      <div className="bg-black h-screen text-white text-center flex flex-col gap-6 justify-center items-center font-mono">
 
         <p className="text-5xl font-bold">Welcome to our game SPELL IT!</p>
         <p className="text-md font-bold">Input your age before you can play!</p>
-        <form onSubmit={handleSubmit} className="flex gap-4 justify-center items-center">
+        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 justify-center items-center">
           <input type="number" placeholder='Input your age...' className="p-4 rounded-md bg-gray-400 placeholder:text-white" name="age" value={getAge} onChange={(e)=> setGetAge(e.target.value)}/>
 
           <input type="submit" value="Submit" className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer"/>
@@ -146,26 +159,47 @@ export default function Home() {
       setTrySubmit(trySubmit + 1);
       setTimeout(() => {
         setErrorMessage()
-      }, 1000)
+      }, 3000)
     }
   }
+
+  const handleSkip = () => {
+    if(skipWord < 3) {
+      setSkipWord(skipWord + 1)
+    }
+    if(skipWord > 3) {
+      setErrorMessage(`No more skip!`)
+        setTimeout(() => {
+          setErrorMessage()
+        }, 3000)
+    }
+  }
+  
+  console.log(skipWord)
 
   return (
     <>
       <Head>
         <title>Home</title>
       </Head>
-      <div className="flex flex-col justify-center items-center gap-4">
+      <div className="flex flex-col justify-center items-center gap-4 pb-12">
         {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" /> */}
-
-        <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 mt-24">
-          <span>
-            <p className="text-sm text-purple-700 float-right">Level: {level}</p>
+        <div className="md:mt-8 flex flex-col">
+          <p className="text-2xl">Rules:</p>
+          <p className="text-2xl">- 3 Tries only</p>
+          <p className="text-2xl">- 3 Skips only</p>
+        </div>
+        <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 my-8">
+          <span className="flex flex-col md:flex-row justify-around items-center">
             <p className="text-sm text-purple-700">Category: {category}</p>
+            <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Tries: {trySubmit - 1}</p>
+            <p className="text-sm text-purple-700">Level: {level}</p>
+            <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Skips: {skipWord}</p>
           </span>
           <p className="text-6xl font-bold text-center">{shuffleWord}</p>
 
           <form className='flex flex-col md:flex-row gap-2' onSubmit={handleSubmitAnswer}>
+            <input type="button" value="Skip" className="bg-green-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-green-500" onClick={handleSkip} />
             <input type="text" placeholder="Spell it..." className="bg-slate-300 rounded-md p-3 placeholder:text-gray-600 text-xl" value={answer} onChange={(e) => setAnswer(e.target.value)} required />
             <input type="submit" value="Submit" className="bg-blue-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-blue-500"/>
           </form>
