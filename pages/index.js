@@ -147,6 +147,7 @@ export default function Home() {
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault()
+    setAnswer('')
     
     if(answer?.toUpperCase() === rightAnswer) {
       setSuccessMessage("Correct!")
@@ -167,7 +168,7 @@ export default function Home() {
     if(skipWord < 3) {
       setSkipWord(skipWord + 1)
     }
-    if(skipWord > 3) {
+    if(skipWord == 3) {
       setErrorMessage(`No more skip!`)
         setTimeout(() => {
           setErrorMessage()
@@ -184,13 +185,13 @@ export default function Home() {
       </Head>
       <div className="flex flex-col justify-center items-center gap-4 pb-12">
         {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" /> */}
-        <div className="md:mt-8 flex flex-col">
+        <div className="mt-8 flex flex-col mx-8 md:mx-none">
           <p className="text-2xl">Rules:</p>
           <p className="text-2xl">- 3 Tries only</p>
           <p className="text-2xl">- 3 Skips only</p>
           <p className="text-2xl">- 2 correct answers to finish the game</p>
         </div>
-        <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 my-8">
+        <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 md:my-8">
           <span className="flex flex-col md:flex-row justify-around items-center">
             <p className="text-sm text-purple-700">Category: {category}</p>
             <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Tries: {trySubmit - 1}</p>
@@ -200,9 +201,9 @@ export default function Home() {
           <p className="text-6xl font-bold text-center">{shuffleWord}</p>
 
           <form className='flex flex-col md:flex-row gap-2' onSubmit={handleSubmitAnswer}>
-            <input type="button" value="Skip" className="bg-green-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-green-500" onClick={handleSkip} />
+            <input type="button" value="Skip" className={`${skipWord == 3? "bg-red-600" : "bg-green-600 hover:bg-green-500"} text-gray-200 rounded-md p-2 cursor-pointer`} onClick={handleSkip}/>
             <input type="text" placeholder="Spell it..." className="bg-slate-300 rounded-md p-3 placeholder:text-gray-600 text-xl" value={answer} onChange={(e) => setAnswer(e.target.value)} required />
-            <input type="submit" value="Submit" className="bg-blue-600 text-gray-200 rounded-md px-4 cursor-pointer hover:bg-blue-500"/>
+            <input type="submit" value="Submit" className="bg-blue-600 text-gray-200 rounded-md p-2 cursor-pointer hover:bg-blue-500"/>
           </form>
           {errorMessage && <p className="text-center bg-red-500 text-white px-3 rounded-xl">{errorMessage}</p>}
           {successAnswer && <p className="text-center bg-green-500 text-white px-3 rounded-xl">{successAnswer}</p>}
