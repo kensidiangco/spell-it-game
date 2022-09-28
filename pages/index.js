@@ -186,15 +186,15 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center gap-4 pb-12">
         {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" /> */}
         <div className="mt-8 flex flex-col mx-8 md:mx-none">
-          <p className="text-2xl">Rules:</p>
-          <p className="text-2xl">- 3 Tries only</p>
+          <p className="text-2xl">Game rules:</p>
+          <p className="text-2xl">- 3 Fails only</p>
           <p className="text-2xl">- 3 Skips only</p>
           <p className="text-2xl">- 2 correct answers to finish the game</p>
         </div>
         <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 md:my-8">
           <span className="flex flex-col md:flex-row justify-around items-center">
-            <p className="text-sm text-purple-700">Category: {category}</p>
-            <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Tries: {trySubmit - 1}</p>
+            <p className="text-sm bg-blue-500 text-white px-2 rounded-xl">Category: {category}</p>
+            <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Fails: {trySubmit - 1}</p>
             <p className="text-sm text-purple-700">Level: {level}</p>
             <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Skips: {skipWord}</p>
           </span>
