@@ -194,8 +194,8 @@ export default function Home() {
         <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 md:my-8">
           <span className="flex flex-col md:flex-row justify-around items-center">
             <p className="text-sm bg-blue-500 text-white px-2 rounded-xl">Category: {category}</p>
+            <p className="text-sm text-purple-500">Level: {level}</p>
             <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Fails: {trySubmit - 1}</p>
-            <p className="text-sm text-purple-700">Level: {level}</p>
             <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Skips: {skipWord}</p>
           </span>
           <p className="text-6xl font-bold text-center">{shuffleWord}</p>
