@@ -8,7 +8,7 @@ function About() {
       <Head>
         <title>About</title>
       </Head>
-      <div className="px-24 py-8">
+      <div className="md:px-24 py-8">
         <div className="bg-white p-8 shadow-xl flex flex-col gap-4 rounded-xl">
           <div className="flex flex-col gap-4">
             <p className="text-3xl font-bold">About website.</p>
