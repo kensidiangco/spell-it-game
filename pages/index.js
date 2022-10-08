@@ -1,10 +1,16 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import GamePanel from '../components/GamePanel'
+import Loser from '../components/Loser'
+import StartPage from '../components/StartPage'
+import Winner from '../components/Winner'
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Home() {
   const [getAge, setGetAge] = useState()
   const [age, setAge] = useState()
+  const [adulthood, setAdulthood] = useState('')
   const [savedAge, setSavedAge] = useState()
   const [errorMessage, setErrorMessage] = useState()
   const [successAnswer, setSuccessMessage] = useState()
@@ -16,6 +22,9 @@ export default function Home() {
   const [answer, setAnswer] = useState()
   const [rightAnswer, setRightAnswer] = useState()
   const [skipWord, setSkipWord] = useState(0)
+  const [disableButton, setDisableButton] = useState(false)
+
+  const [correctAnswer, setCorrectAnswer] = useState([]);
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -44,6 +53,23 @@ export default function Home() {
   const MediumCategoryWords = Object.keys(mediumWords)
 
   useEffect(() => {
+    if (age < 11) {
+      setAdulthood('Young children')
+    } 
+
+    if (age > 10 && age < 20) {
+      setAdulthood('Teenager')
+    } 
+
+    if (age > 19 && age <26) {
+      setAdulthood('Young Adult')
+    } 
+
+    if (age > 25) {
+      setAdulthood('Late Adult')
+    } 
+
+    // Level 1
     if(age && level == 1) {
       const pickedCategory = BeginnerCategoryWords[Math.floor(Math.random()*BeginnerCategoryWords.length)]
       setCategory(pickedCategory)
@@ -58,6 +84,7 @@ export default function Home() {
       }
     }
 
+    // Level 2
     if(age && level == 2) {
       const pickedCategory = MediumCategoryWords[Math.floor(Math.random()*MediumCategoryWords.length)]
       setCategory(pickedCategory)
@@ -72,8 +99,6 @@ export default function Home() {
       }
     }
   }, [age, trySubmit, level, skipWord])
-  
-  
 
   useEffect(() => {
     if(getAge) {
@@ -98,69 +123,33 @@ export default function Home() {
     setAnswer()
     setLevel(1)
     setSkipWord(0)
-  }
-
-  if(trySubmit > 3) {
-    return (
-      <>
-        <Head>
-          <title>Spell it | Game Over</title>
-        </Head>
-        <div className="flex flex-col gap-4 justify-center items-center h-screen bg-gradient-to-r from-red-200 to-white">
-
-          <p className="text-2xl md:text-8xl font-bold text-red-600">😭GAME OVER!💔</p>
-          <input type="button" value="Play again" className="bg-white hover:bg-gray-50 border-2 border-red-600 shadow-md cursor-pointer py-2 px-4 transition transition-delay-1 text-xl" onClick={handlePlayAgain}/>
-        </div>
-      </>
-    )
-  }
-
-  if(level > 2) {
-    return (
-      <>
-        <Head>
-          <title>Spell it | Success</title>
-        </Head>
-        <div className="flex flex-col gap-4 justify-center items-center h-screen bg-gradient-to-r from-green-200 to-white">
-          <p className="text-2xl md:text-8xl font-bold text-green-700">Hooray!🎉</p> 
-          <p className="text-2xl text-center md:text-5xl font-bold text-green-700">Thank you for playing the game🥰</p>
-          <input type="button" value="Play again" className="bg-green-600 cursor-pointer text-white p-2 px-4 hover:bg-green-500 transition transition-delay-1 text-xl" onClick={handlePlayAgain}/>
-        </div>
-      </>
-    )
-  }
-
-  if(!age) {
-    return (
-      <div className="bg-black h-screen text-white text-center flex flex-col gap-6 justify-center items-center font-mono">
-
-        <p className="text-5xl font-bold">Welcome to our game SPELL IT!</p>
-        <p className="text-md font-bold">Input your age before you can play!</p>
-        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 justify-center items-center">
-          <input type="number" placeholder='Input your age...' className="p-4 rounded-md bg-gray-400 placeholder:text-white" name="age" value={getAge} onChange={(e)=> setGetAge(e.target.value)}/>
-
-          <input type="submit" value="Submit" className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer"/>
-        </form>
-      </div>
-    )
+    setCorrectAnswer([])
+    setSuccessMessage('')
+    setErrorMessage('')
   }
 
   const handleSubmitAnswer = (e) => {
     e.preventDefault()
     setAnswer('')
+
+    setDisableButton(true)
+    setTimeout(() => {
+      setDisableButton(false)
+    }, 1500)
     
     if(answer?.toUpperCase() === rightAnswer) {
       setSuccessMessage("Correct!")
+      setCorrectAnswer(prevArr => [...prevArr, answer])
       setLevel(level + 1);
       setTimeout(() => {
         setSuccessMessage()
-      }, 5000)
+      }, 1500)
     } else {
       setErrorMessage(`Wrong spelling! \n try: ${trySubmit}`)
       setTrySubmit(trySubmit + 1);
       setTimeout(() => {
         setErrorMessage()
-      }, 3000)
+      }, 1500)
     }
   }
 
@@ -172,43 +161,141 @@ export default function Home() {
       setErrorMessage(`No more skip!`)
         setTimeout(() => {
           setErrorMessage()
-        }, 3000)
+        }, 2000)
     }
   }
-  
-  console.log(skipWord)
 
+  // Pages 
+
+  if(trySubmit > 3) {
+    return <Loser handlePlayAgain={handlePlayAgain} />
+  }
+
+  if(level > 2) {
+    return <Winner handlePlayAgain={handlePlayAgain} />
+  }
+
+  if(!age) {
+    return <StartPage handleSubmit={handleSubmit} getAge={getAge} setGetAge={setGetAge} />
+  }
+  
   return (
-    <>
+    <motion.div 
+      initial="hidden" 
+      animate="visible" 
+      variants={{
+        hidden: {
+          scale: .8,
+          opacity: 0
+        },
+        visible: {
+          scale: 1,
+          opacity: 1,
+          transition: {
+            delay: .4
+          }
+        },
+      }}
+    >
+
       <Head>
-        <title>Home</title>
+        <title>Spell It | Gameplay</title>
       </Head>
-      <div className="flex flex-col justify-center items-center gap-4 pb-12">
-        {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" /> */}
+      <p className="text-3xl text-gray-800 pt-8 ml-10">Player: {adulthood}</p>
+      {/* <div className="flex flex-col justify-center items-center gap-4 pb-12 min-h-screen"> */}
+
+        {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" />
         <div className="mt-8 flex flex-col mx-8 md:mx-none">
           <p className="text-2xl">Game rules:</p>
           <p className="text-2xl">- 3 Fails only</p>
           <p className="text-2xl">- 3 Skips only</p>
           <p className="text-2xl">- 2 correct answers to finish the game</p>
-        </div>
-        <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 md:my-8">
-          <span className="flex flex-col md:flex-row justify-around items-center">
-            <p className="text-sm bg-blue-500 text-white px-2 rounded-xl">Category: {category}</p>
-            <p className="text-sm text-purple-500">Level: {level}</p>
-            <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Fails: {trySubmit - 1}</p>
-            <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700 text-sm"}`}>Skips: {skipWord}</p>
-          </span>
-          <p className="text-6xl font-bold text-center">{shuffleWord}</p>
+        </div> */}
+        
+        <div class="grid grid-cols-3 gap-4 place-items-center h-screen items-start pt-16">
+          <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md w-96'>
+            <p className="text-3xl font-bold text-gray-700">Score board</p>
+            <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Score: <span>{level - 1}</span></p>
 
-          <form className='flex flex-col md:flex-row gap-2' onSubmit={handleSubmitAnswer}>
-            <input type="button" value="Skip" className={`${skipWord == 3? "bg-red-600" : "bg-green-600 hover:bg-green-500"} text-gray-200 rounded-md p-2 cursor-pointer`} onClick={handleSkip}/>
-            <input type="text" placeholder="Spell it..." className="bg-slate-300 rounded-md p-3 placeholder:text-gray-600 text-xl" value={answer} onChange={(e) => setAnswer(e.target.value)} required />
-            <input type="submit" value="Submit" className="bg-blue-600 text-gray-200 rounded-md p-2 cursor-pointer hover:bg-blue-500"/>
-          </form>
-          {errorMessage && <p className="text-center bg-red-500 text-white px-3 rounded-xl">{errorMessage}</p>}
-          {successAnswer && <p className="text-center bg-green-500 text-white px-3 rounded-xl">{successAnswer}</p>}
+            <AnimatePresence>
+              {correctAnswer?.map((answer, i) => (
+                <motion.div 
+                  initial="hidden" 
+                  animate="visible" 
+                  variants={{
+                  hidden: {
+                    scale: .8,
+                    opacity: 0
+                  },
+                  visible: {
+                    scale: 1,
+                    opacity: 1,
+                  },
+                }}
+              >
+                  <li className="bg-green-600 px-2 rounded-md text-white">{answer}</li>
+              </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+
+          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md'>
+            <GamePanel 
+              level={level} 
+              category={category} 
+              trySubmit={trySubmit} 
+              skipWord={skipWord} 
+              shuffleWord={shuffleWord} 
+              handleSubmitAnswer={handleSubmitAnswer} 
+              handleSkip={handleSkip} 
+              answer={answer} 
+              setAnswer={setAnswer} 
+              errorMessage={errorMessage} 
+              successAnswer={successAnswer} 
+              disableButton={disableButton}
+            />
+          </div>
+
+          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md w-96'>
+            <p className="text-3xl font-bold text-gray-700">Status</p>
+            <p className="text-purple-600">Level: {level}</p>
+            {trySubmit > 2 ? 
+              <motion.div
+                animate={{
+                  rotate: [-1, 1.4, 1],
+                }}
+                transition={{
+                  delay: Math.random() * 0.7 + 0.05,
+                  repeat: Infinity,
+                  duration: Math.random() * 0.07 + 0.23
+                }}
+              >
+                <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Fails: {trySubmit - 1}</p>
+              </motion.div>
+            :
+              <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Fails: {trySubmit - 1}</p>
+            
+            }
+            {skipWord > 2?
+              <motion.div
+                animate={{
+                  rotate: [-1, 1.4, 1],
+                }}
+                transition={{
+                  delay: Math.random() * 0.7 + 0.05,
+                  repeat: Infinity,
+                  duration: Math.random() * 0.07 + 0.23
+                }}
+              >
+                <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Skips: {skipWord}</p>
+              </motion.div>
+            :
+              <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Skips: {skipWord}</p>
+            }
+          </div>
         </div>
-      </div>
-    </>
+          
+      {/* </div> */}
+      </motion.div>
   )
 }
