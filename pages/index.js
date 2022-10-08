@@ -212,8 +212,8 @@ export default function Home() {
           <p className="text-2xl">- 2 correct answers to finish the game</p>
         </div> */}
         
-        <div class="grid grid-cols-3 gap-4 place-items-center h-screen items-start pt-16">
-          <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md w-96'>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 place-items-center md:h-screen items-start pt-4 pb-8 md:pt-16">
+          <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md md:w-96'>
             <p className="text-3xl font-bold text-gray-700">Score board</p>
             <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Score: <span>{level - 1}</span></p>
 
@@ -256,7 +256,7 @@ export default function Home() {
             />
           </div>
 
-          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md w-96'>
+          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md md:w-96'>
             <p className="text-3xl font-bold text-gray-700">Status</p>
             <p className="text-purple-600">Level: {level}</p>
             {trySubmit > 2 ? 

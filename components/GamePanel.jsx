@@ -21,7 +21,7 @@ function GamePanel({ disableButton, category, trySubmit, skipWord, shuffleWord, 
             // whileTap={{ scale: 0.9 }}
             whileInView={{ opacity: 1 }}
           >
-            <p className="text-7xl bg-purple-800 text-white rounded-md px-2 font-bold text-center tracking-widest">{shuffleWord}</p>
+            <p className="text-5xl md:text-7xl bg-purple-800 text-white rounded-md px-2 font-bold text-center tracking-widest">{shuffleWord}</p>
           </motion.button>
 
           <form className='flex flex-col md:flex-row gap-2' onSubmit={handleSubmitAnswer}>
