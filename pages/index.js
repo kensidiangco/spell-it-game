@@ -220,6 +220,7 @@ export default function Home() {
             <AnimatePresence>
               {correctAnswer?.map((answer, i) => (
                 <motion.div 
+                  key={i}
                   initial="hidden" 
                   animate="visible" 
                   variants={{
