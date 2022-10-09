@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps, router }) {
       }
     }}>
       <Navigation />
-      <div className="bg-gray-100 font-mono">
+      <div className="bg-gradient-to-r from-purple-300 to-blue-100 font-mono">
         <Component {...pageProps} />
       </div>
       <Footer />

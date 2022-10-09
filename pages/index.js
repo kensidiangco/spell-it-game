@@ -8,6 +8,7 @@ import Winner from '../components/Winner'
 import { AnimatePresence, motion } from 'framer-motion';
 import TrySubmit from '../components/TrySubmit'
 import Skips from '../components/Skips'
+import ScoreBoard from '../components/ScoreBoard'
 
 export default function Home() {
   const [getAge, setGetAge] = useState()
@@ -45,16 +46,36 @@ export default function Home() {
     "Planets" : [
       "EARTH", "SATURN", "JUPITER", "PLUTO", "MERCURY", "SUN", "MARS", "VENUS"
     ],
+    "Colors": [
+      "WHITE", "BLACK", "RED", "GREEN", "BLUE", "PURPLE", "VOILET", "ORANGE", "YELLOW", "GRAY"
+    ]
   }
 
   const mediumWords = {
-    "Animals" : [
-      "ELEPHANT", "ZEBRA", "HORSE", "DOG", "CAT", "RAT", "TIGER", "MOUSE"
+    "Body parts" : [
+      "SHOULDER", "HAND", "PALM", "FOOT", "HEAD", "BACK", "CHEST", "LEGS", "UNCLE", "NECK", "EARS", "EYES", "NOSE", "MOUTH", "CHEEKS", "TEETH", "TOUNGE", "STOMACH", "TOE", "KNEE", "ELBOW", "FINGERS", "NAILS"
     ],
+    "Numbers" : [
+      "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTHEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"
+    ],
+  }
+
+  const hardWords = {
+    "Animals" : [
+      "ELEPHANT", "ZEBRA", "HORSE", "DOG", "CAT", "TIGER", "MOUSE", "LION", "OSTRICH", "BIRD", "KANGAROO", "MONKEY", "GIRAFFE", "CROCODILE", "FISH", "DOLPHIN", "SHARK"
+    ],
+  }
+
+  const intermediateWords = {
+    "Super heroes": [
+      "BATMAN", "SUPERMAN", "SUPERWOMAN", "AQUAMAN", "SPIDERMAN", "IRONMAN", "BATWOMAN", "ANTMAN", "JOKER", "ROBINHOOD", "HULK", "WOLVERINE", "THOR", "ROBIN", "THANOS"
+    ]
   }
 
   const BeginnerCategoryWords = Object.keys(BeginnerWords)
   const MediumCategoryWords = Object.keys(mediumWords)
+  const HardCategoryWords = Object.keys(hardWords)
+  const intermediateCategoryWords = Object.keys(intermediateWords)
 
   useEffect(() => {
     if (age < 11) {
@@ -96,6 +117,40 @@ export default function Home() {
       const pickedCategory = MediumCategoryWords[Math.floor(Math.random()*MediumCategoryWords.length)]
       setCategory(pickedCategory)
       const word = mediumWords[pickedCategory]
+      const pickedWord = word[Math.floor(Math.random()*word.length)]
+      setRightAnswer(pickedWord)
+      const shuffleWord = pickedWord.split('').sort(function(){return 0.5-Math.random()}).join('') 
+
+      if(pickedWord !== shuffleWord){
+        setShuffleWord(shuffleWord)
+      }
+      
+      if(pickedWord === shuffleWord){
+        setShuffleWord(pickedWord.split('').sort(function(){return 0.5-Math.random()}).join(''))
+      }
+    }
+    // level 3
+    if(age && level == 3) {
+      const pickedCategory = HardCategoryWords[Math.floor(Math.random()*HardCategoryWords.length)]
+      setCategory(pickedCategory)
+      const word = hardWords[pickedCategory]
+      const pickedWord = word[Math.floor(Math.random()*word.length)]
+      setRightAnswer(pickedWord)
+      const shuffleWord = pickedWord.split('').sort(function(){return 0.5-Math.random()}).join('') 
+
+      if(pickedWord !== shuffleWord){
+        setShuffleWord(shuffleWord)
+      }
+      
+      if(pickedWord === shuffleWord){
+        setShuffleWord(pickedWord.split('').sort(function(){return 0.5-Math.random()}).join(''))
+      }
+    }
+    // level 4
+    if(age && level == 4) {
+      const pickedCategory = intermediateCategoryWords[Math.floor(Math.random()*intermediateCategoryWords.length)]
+      setCategory(pickedCategory)
+      const word = intermediateWords[pickedCategory]
       const pickedWord = word[Math.floor(Math.random()*word.length)]
       setRightAnswer(pickedWord)
       const shuffleWord = pickedWord.split('').sort(function(){return 0.5-Math.random()}).join('') 
@@ -157,7 +212,7 @@ export default function Home() {
         setSuccessMessage()
       }, 1500)
     } else {
-      setErrorMessage('Wrong spelling! try again.')
+      setErrorMessage('Wrong! try again.')
       setTrySubmit(trySubmit + 1);
       setTimeout(() => {
         setErrorMessage()
@@ -186,11 +241,23 @@ export default function Home() {
   // Pages 
 
   if(trySubmit > 2) {
-    return <Loser handlePlayAgain={handlePlayAgain} />
+    return <Loser 
+            handlePlayAgain={handlePlayAgain}
+            correctAnswer={correctAnswer}
+            level={level}
+            skipWord={skipWord}
+            trySubmit={trySubmit}
+          /> 
   }
 
-  if(level > 2) {
-    return <Winner handlePlayAgain={handlePlayAgain} />
+  if(level > 4) {
+    return <Winner 
+              handlePlayAgain={handlePlayAgain}
+              correctAnswer={correctAnswer}
+              level={level}
+              skipWord={skipWord}
+              trySubmit={trySubmit}
+            />
   }
 
   if(!age) {
@@ -219,7 +286,7 @@ export default function Home() {
       <Head>
         <title>Spell It | Gameplay</title>
       </Head>
-      <p className="text-3xl text-gray-800 pt-8 ml-10">Player: {adulthood}</p>
+      {/* <p className="text-3xl text-gray-800 pt-8 ml-10">Player: {adulthood}</p> */}
       {/* <div className="flex flex-col justify-center items-center gap-4 pb-12 min-h-screen"> */}
 
         {/* <input type="button" value="Edit Age" onClick={editAge} className="p-4 bg-blue-900 hover:bg-blue-800 rounded-md cursor-pointer text-white" />
@@ -231,34 +298,9 @@ export default function Home() {
         </div> */}
         
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center xl:h-screen items-start pt-4 pb-8 md:pt-16">
-          <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md md:w-80 xl:w-96'>
-            <p className="text-3xl font-bold text-gray-700">Score board:</p>
-            <p className="text-xl border-2 border-purple-800 text-purple-800 rounded-md px-4">Score: <span>{level - 1}</span></p>
+          <ScoreBoard level={level} correctAnswer={correctAnswer} />
 
-            <AnimatePresence>
-              {correctAnswer?.map((answer, i) => (
-                <motion.div 
-                  key={i}
-                  initial="hidden" 
-                  animate="visible" 
-                  variants={{
-                  hidden: {
-                    scale: .8,
-                    opacity: 0
-                  },
-                  visible: {
-                    scale: 1,
-                    opacity: 1,
-                  },
-                }}
-              >
-                  <li className="bg-green-600 px-2 rounded-md text-white text-xl">{answer}</li>
-              </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-
-          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md'>
+          <div className='grid grid-cols-1 gap-4 backdrop-blur-xl bg-white/90 p-4 rounded-md shadow-md'>
             <GamePanel 
               level={level} 
               category={category} 
@@ -277,7 +319,7 @@ export default function Home() {
             />
           </div>
 
-          <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md w-auto xl:w-96'>
+          <div className='grid grid-cols-1 gap-4 backdrop-blur-xl bg-white/90 p-4 rounded-md shadow-md w-auto xl:w-96'>
             <p className="text-3xl font-bold text-gray-700">Game status:</p>
             <p className="text-xl border-2 border-purple-800 px-2 text-purple-800 rounded-md">Level: {level}</p>
             
