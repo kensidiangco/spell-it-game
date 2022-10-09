@@ -6,6 +6,8 @@ import Loser from '../components/Loser'
 import StartPage from '../components/StartPage'
 import Winner from '../components/Winner'
 import { AnimatePresence, motion } from 'framer-motion';
+import TrySubmit from '../components/TrySubmit'
+import Skips from '../components/Skips'
 
 export default function Home() {
   const [getAge, setGetAge] = useState()
@@ -15,7 +17,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState()
   const [successAnswer, setSuccessMessage] = useState()
   const [level, setLevel] = useState(1);
-  const [trySubmit, setTrySubmit] = useState(1);
+  const [trySubmit, setTrySubmit] = useState(0);
 
   const [shuffleWord, setShuffleWord] = useState()
   const [category, setCategory] = useState()
@@ -127,7 +129,7 @@ export default function Home() {
   }
 
   const handlePlayAgain = () => {
-    setTrySubmit(1)
+    setTrySubmit(0)
     setAnswer()
     setLevel(1)
     setSkipWord(0)
@@ -183,7 +185,7 @@ export default function Home() {
 
   // Pages 
 
-  if(trySubmit > 3) {
+  if(trySubmit > 2) {
     return <Loser handlePlayAgain={handlePlayAgain} />
   }
 
@@ -231,7 +233,7 @@ export default function Home() {
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center xl:h-screen items-start pt-4 pb-8 md:pt-16">
           <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md md:w-80 xl:w-96'>
             <p className="text-3xl font-bold text-gray-700">Score board:</p>
-            <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Score: <span>{level - 1}</span></p>
+            <p className="text-xl border-2 border-purple-800 text-purple-800 rounded-md px-4">Score: <span>{level - 1}</span></p>
 
             <AnimatePresence>
               {correctAnswer?.map((answer, i) => (
@@ -250,7 +252,7 @@ export default function Home() {
                   },
                 }}
               >
-                  <li className="bg-green-600 px-2 rounded-md text-white">{answer}</li>
+                  <li className="bg-green-600 px-2 rounded-md text-white text-xl">{answer}</li>
               </motion.div>
               ))}
             </AnimatePresence>
@@ -277,40 +279,11 @@ export default function Home() {
 
           <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md w-auto xl:w-96'>
             <p className="text-3xl font-bold text-gray-700">Game status:</p>
-            <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Level: {level}</p>
-            {trySubmit > 2 ? 
-              <motion.div
-                animate={{
-                  rotate: [-1, 1.4, 1],
-                }}
-                transition={{
-                  delay: Math.random() * 0.7 + 0.05,
-                  repeat: Infinity,
-                  duration: Math.random() * 0.07 + 0.23
-                }}
-              >
-                <p className={`${trySubmit > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Fails: {trySubmit - 1}</p>
-              </motion.div>
-            :
-              <p className={`${trySubmit > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Fails: {trySubmit - 1}</p>
+            <p className="text-xl border-2 border-purple-800 px-2 text-purple-800 rounded-md">Level: {level}</p>
             
-            }
-            {skipWord > 2?
-              <motion.div
-                animate={{
-                  rotate: [-1, 1.4, 1],
-                }}
-                transition={{
-                  delay: Math.random() * 0.7 + 0.05,
-                  repeat: Infinity,
-                  duration: Math.random() * 0.07 + 0.23
-                }}
-              >
-                <p className={`${skipWord > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Skips: {skipWord}</p>
-              </motion.div>
-            :
-              <p className={`${skipWord > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Skips: {skipWord}</p>
-            }
+            <TrySubmit trySubmit={trySubmit} />
+            <Skips skipWord={skipWord} />
+              
           </div>
         </div>
           

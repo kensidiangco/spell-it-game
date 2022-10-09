@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import Image from 'next/image'
 
 function GamePanel({ disableButton, category, rightAnswer, skipWord, shuffleWord, handleSubmitAnswer, handleSkip, answer, setAnswer, errorMessage, successAnswer, handleNextLevel }) {
 
@@ -12,9 +13,11 @@ function GamePanel({ disableButton, category, rightAnswer, skipWord, shuffleWord
   return (
     <>
         {/* <div className="p-8 bg-white rounded-md shadow-xl flex flex-col gap-6 md:my-8"> */}
-           <span className="flex flex-col xl:flex-row items-center justify-between gap-4">
-              <p className="bg-purple-800 text-white px-2 rounded-md text-xl">Category: {category}</p> 
-              <button onClick={handleSpeech} className="bg-purple-800 hover:bg-purple-700 transition transition-delay-1 text-white px-2 rounded-md text-xl" disabled={!rightAnswer}>Hear it</button>
+           <span className="flex items-center xl:flex-row justify-between gap-4">
+              <p className="md:bg-purple-800 md:text-white px-2 rounded-md text-xl">{category}</p> 
+
+                <Image onClick={handleSpeech} disabled={!rightAnswer} src="/Speaker_Icon.png" width={30} height={25} className="cursor-pointer"/>
+
 
             {/*<p className="text-sm text-purple-500">Level: {level}</p>
             <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-md text-xl" : "text-purple-700 text-sm"}`}>Fails: {trySubmit - 1}</p>
@@ -51,7 +54,7 @@ function GamePanel({ disableButton, category, rightAnswer, skipWord, shuffleWord
                 }}
                 // whileTap={{ scale: 0.9 }}
                 whileInView={{ opacity: 1 }}
-                className="text-5xl md:text-7xl bg-green-700 hover:bg-green-600 text-white rounded-md p-2 font-bold text-center tracking-widest"
+                className="text-5xl md:text-7xl bg-green-600 hover:bg-green-500 text-white rounded-md p-2 font-bold text-center tracking-widest"
                 onClick={handleNextLevel}
               >
                 Next {">"}
@@ -60,9 +63,11 @@ function GamePanel({ disableButton, category, rightAnswer, skipWord, shuffleWord
           </AnimatePresence>
 
           <form className='flex flex-col xl:flex-row gap-2' onSubmit={handleSubmitAnswer}>
-            <input type="button" value="Skip" className={`${skipWord == 3? "bg-red-600" : "bg-blue-600 hover:bg-blue-500"} text-gray-200 rounded-md p-2 cursor-pointer transition transition-delay-1`} onClick={handleSkip}/>
+            <input type="button" value="Skip" className={`${skipWord == 3? "border-2 border-gray-500 text-gray-600" : "border-2 border-blue-600 xl:hover:border-blue-500 text-blue-600"} rounded-md p-2 cursor-pointer transition transition-delay-1 hidden xl:block`} onClick={handleSkip}/>
+            
             <input type="text" placeholder="Spell it..." className="bg-slate-300 rounded-md p-3 placeholder:text-gray-600 text-xl" value={answer} onChange={(e) => setAnswer(e.target.value)} required />
             <input type="submit" value="Submit" className={`${disableButton? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-500'} text-gray-200 rounded-md p-2 cursor-pointer transition transition-delay-1`} disabled={disableButton}/>
+            <input type="button" value="Skip" className={`${skipWord == 3? "border-2 border-gray-500 text-gray-600" : "border-2 border-blue-600 xl:hover:border-blue-500 text-blue-600"} rounded-md p-2 cursor-pointer transition transition-delay-1 xl:hidden`} onClick={handleSkip}/>
           </form>
 
           <AnimatePresence>
