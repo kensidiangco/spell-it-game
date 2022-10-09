@@ -24,6 +24,8 @@ export default function Home() {
   const [skipWord, setSkipWord] = useState(0)
   const [disableButton, setDisableButton] = useState(false)
 
+  const [nextLevel, setNextLevel] = useState(0)
+
   const [correctAnswer, setCorrectAnswer] = useState([]);
 
   useEffect(() => {
@@ -38,15 +40,15 @@ export default function Home() {
   }, []);
 
   const BeginnerWords = {
-    "Animals" : [
-      "ELEPHANT", "ZEBRA", "HORSE", "DOG", "CAT", "RAT", "TIGER", "MOUSE"
+    "Planets" : [
+      "EARTH", "SATURN", "JUPITER", "PLUTO", "MERCURY", "SUN", "MARS", "VENUS"
     ],
   }
 
   const mediumWords = {
-    "Planets" : [
-      "EARTH", "SATURN", "JUPITER", "PLUTO", "MECURY", "SUN", "MARS", "VENUS"
-    ]
+    "Animals" : [
+      "ELEPHANT", "ZEBRA", "HORSE", "DOG", "CAT", "RAT", "TIGER", "MOUSE"
+    ],
   }
 
   const BeginnerCategoryWords = Object.keys(BeginnerWords)
@@ -104,7 +106,7 @@ export default function Home() {
         setShuffleWord(pickedWord.split('').sort(function(){return 0.5-Math.random()}).join(''))
       }
     }
-  }, [age, trySubmit, level, skipWord])
+  }, [age, skipWord, nextLevel])
 
   useEffect(() => {
     if(getAge) {
@@ -132,6 +134,7 @@ export default function Home() {
     setCorrectAnswer([])
     setSuccessMessage('')
     setErrorMessage('')
+    setNextLevel(0)
   }
 
   const handleSubmitAnswer = (e) => {
@@ -147,11 +150,12 @@ export default function Home() {
       setSuccessMessage("Correct!")
       setCorrectAnswer(prevArr => [...prevArr, answer])
       setLevel(level + 1);
+      setShuffleWord('')
       setTimeout(() => {
         setSuccessMessage()
       }, 1500)
     } else {
-      setErrorMessage(`Wrong spelling! \n try: ${trySubmit}`)
+      setErrorMessage('Wrong spelling! try again.')
       setTrySubmit(trySubmit + 1);
       setTimeout(() => {
         setErrorMessage()
@@ -169,6 +173,12 @@ export default function Home() {
           setErrorMessage()
         }, 2000)
     }
+  }
+
+  const handleNextLevel = () => {
+    setNextLevel(nextLevel + 1)
+    setErrorMessage('')
+    setSuccessMessage('')
   }
 
   // Pages 
@@ -220,7 +230,7 @@ export default function Home() {
         
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center xl:h-screen items-start pt-4 pb-8 md:pt-16">
           <div className='flex flex-col gap-4 bg-white p-4 rounded-md shadow-md md:w-80 xl:w-96'>
-            <p className="text-3xl font-bold text-gray-700">Score board</p>
+            <p className="text-3xl font-bold text-gray-700">Score board:</p>
             <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Score: <span>{level - 1}</span></p>
 
             <AnimatePresence>
@@ -261,12 +271,13 @@ export default function Home() {
               successAnswer={successAnswer} 
               disableButton={disableButton}
               rightAnswer={rightAnswer}
+              handleNextLevel={handleNextLevel}
             />
           </div>
 
           <div className='grid grid-cols-1 gap-4 bg-white p-4 rounded-md shadow-md w-auto xl:w-96'>
-            <p className="text-3xl font-bold text-gray-700">Status</p>
-            <p className="text-purple-600">Level: {level}</p>
+            <p className="text-3xl font-bold text-gray-700">Game status:</p>
+            <p className="text-xl bg-purple-800 px-2 text-white rounded-md">Level: {level}</p>
             {trySubmit > 2 ? 
               <motion.div
                 animate={{
@@ -278,10 +289,10 @@ export default function Home() {
                   duration: Math.random() * 0.07 + 0.23
                 }}
               >
-                <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Fails: {trySubmit - 1}</p>
+                <p className={`${trySubmit > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Fails: {trySubmit - 1}</p>
               </motion.div>
             :
-              <p className={`${trySubmit > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Fails: {trySubmit - 1}</p>
+              <p className={`${trySubmit > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Fails: {trySubmit - 1}</p>
             
             }
             {skipWord > 2?
@@ -295,10 +306,10 @@ export default function Home() {
                   duration: Math.random() * 0.07 + 0.23
                 }}
               >
-                <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Skips: {skipWord}</p>
+                <p className={`${skipWord > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Skips: {skipWord}</p>
               </motion.div>
             :
-              <p className={`${skipWord > 2? "text-md bg-red-600 text-white px-2 rounded-xl" : "text-purple-700"}`}>Skips: {skipWord}</p>
+              <p className={`${skipWord > 2? "text-xl bg-red-600 text-white px-2 rounded-md" : "text-xl bg-purple-800 px-2 text-white rounded-md"}`}>Skips: {skipWord}</p>
             }
           </div>
         </div>
