@@ -53,7 +53,7 @@ export default function Home() {
 
   const mediumWords = {
     "Body parts" : [
-      "SHOULDER", "HAND", "PALM", "FOOT", "HEAD", "BACK", "CHEST", "LEGS", "UNCLE", "NECK", "EARS", "EYES", "NOSE", "MOUTH", "CHEEKS", "TEETH", "TOUNGE", "STOMACH", "TOE", "KNEE", "ELBOW", "FINGERS", "NAILS"
+      "SHOULDER", "HAND", "PALM", "FOOT", "HEAD", "BACK", "CHEST", "LEGS", "NECK", "EARS", "EYES", "NOSE", "MOUTH", "CHEEKS", "TEETH", "TOUNGE", "STOMACH", "TOE", "KNEE", "ELBOW", "FINGERS", "NAILS"
     ],
     "Numbers" : [
       "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTHEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"
