@@ -78,21 +78,29 @@ export default function Home() {
   const intermediateCategoryWords = Object.keys(intermediateWords)
 
   useEffect(() => {
-    if (age < 11) {
+    if (age < 6) {
+      setAdulthood("Baby with parent")
+    }
+
+    if (age > 5 && age < 11) {
       setAdulthood('Young children')
     } 
 
-    if (age > 10 && age < 20) {
+    if (age > 10 && age < 22) {
       setAdulthood('Teenager')
     } 
 
-    if (age > 19 && age <26) {
-      setAdulthood('Young Adult')
+    if (age > 21 && age < 36) {
+      setAdulthood('Early Adulthood')
     } 
 
-    if (age > 25) {
-      setAdulthood('Late Adult')
+    if (age > 35 && age < 65 ) {
+      setAdulthood('Late Middle Age')
     } 
+
+    if ( age > 64 ) {
+      setAdulthood('Late Adulthood')
+    }
 
     // Level 1
     if(age && level == 1) {
