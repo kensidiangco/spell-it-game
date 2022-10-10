@@ -298,7 +298,7 @@ export default function Home() {
         </div> */}
         
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center xl:h-screen items-start pt-4 pb-8 md:pt-16">
-          <ScoreBoard level={level} correctAnswer={correctAnswer} />
+          <ScoreBoard level={level} correctAnswer={correctAnswer} adulthood={adulthood} />
 
           <div className='grid grid-cols-1 gap-4 backdrop-blur-xl bg-white/90 p-4 rounded-md shadow-md'>
             <GamePanel 
