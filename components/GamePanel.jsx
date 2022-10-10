@@ -42,7 +42,7 @@ function GamePanel({ disableButton, category, rightAnswer, skipWord, shuffleWord
                     opacity: 1,
                   },
                 }}
-              className="text-5xl md:text-4xl bg-purple-800 shadow-xl text-white rounded-md p-2 font-bold text-center tracking-widest"
+              className="text-5xl md:text-6xl bg-purple-800 shadow-xl text-white rounded-md p-2 font-bold text-center tracking-widest"
             >
               {shuffleWord}
             </motion.p>}
