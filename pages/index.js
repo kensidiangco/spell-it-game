@@ -47,7 +47,7 @@ export default function Home() {
       "EARTH", "SATURN", "JUPITER", "PLUTO", "MERCURY", "SUN", "MARS", "VENUS"
     ],
     "Colors": [
-      "WHITE", "BLACK", "RED", "GREEN", "BLUE", "PURPLE", "VOILET", "ORANGE", "YELLOW", "GRAY"
+      "WHITE", "BLACK", "RED", "GREEN", "BLUE", "PURPLE", "ORANGE", "YELLOW", "GRAY"
     ]
   }
 
@@ -68,7 +68,7 @@ export default function Home() {
 
   const intermediateWords = {
     "Super heroes": [
-      "BATMAN", "SUPERMAN", "SUPERWOMAN", "AQUAMAN", "SPIDERMAN", "IRONMAN", "BATWOMAN", "ANTMAN", "JOKER", "ROBINHOOD", "HULK", "WOLVERINE", "THOR", "ROBIN", "THANOS"
+      "BATMAN", "SUPERMAN", "AQUAMAN", "SPIDERMAN", "IRONMAN", "BATWOMAN", "ANTMAN", "JOKER", "ROBINHOOD", "HULK", "WOLVERINE", "THOR", "ROBIN", "THANOS"
     ]
   }
 
