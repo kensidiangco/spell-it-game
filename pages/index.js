@@ -305,27 +305,70 @@ export default function Home() {
           <p className="text-2xl">- 2 correct answers to finish the game</p>
         </div> */}
         
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center xl:h-screen items-start pt-4 pb-8 md:pt-16">
+        <div className='flex justify-center shadow-xl py-6'>
+          <AnimatePresence>
+            {shuffleWord && 
+              <motion.p 
+                initial="hidden" 
+                animate="visible" 
+                whileHover={{
+                  scale: 1.1,
+                  transition: { duration: .2 },
+                }}
+                variants={{
+                  hidden: {
+                    scale: .8,
+                    opacity: 0
+                  },
+                  visible: {
+                    scale: 1,
+                    opacity: 1,
+                  },
+                }}
+              className="text-5xl md:text-[100px] backdrop-blur-sm bg-white/30 drop-shadow-xl border-2 border-purple-600 shadow-xl text-white rounded-md p-2 font-bold text-center tracking-widest"
+            >
+              {shuffleWord}
+            </motion.p>}
+          </AnimatePresence>
+
+          <AnimatePresence>
+            {!shuffleWord && 
+              <motion.button
+                initial={{ opacity: 0.6 }}
+                // whileHover={{
+                //   scale: .9,
+                //   transition: { duration: .2 },
+                // }}
+                whileTap={{ scale: 0.9 }}
+                whileInView={{ opacity: 1 }}
+                className="text-5xl md:text-[100px] bg-green-600 hover:bg-green-500 text-white rounded-md p-2 font-bold text-center tracking-widest"
+                onClick={handleNextLevel}
+              >
+                Next {">"}
+              </motion.button>
+            }
+          </AnimatePresence>
+        </div>
+        
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 place-items-center items-end pt-4 pb-8">
           <ScoreBoard level={level} correctAnswer={correctAnswer} adulthood={adulthood} />
 
-          <div className='grid grid-cols-1 gap-4 backdrop-blur-xl bg-white/90 p-4 rounded-md shadow-md'>
-            <GamePanel 
-              level={level} 
-              category={category} 
-              trySubmit={trySubmit} 
-              skipWord={skipWord} 
-              shuffleWord={shuffleWord} 
-              handleSubmitAnswer={handleSubmitAnswer} 
-              handleSkip={handleSkip} 
-              answer={answer} 
-              setAnswer={setAnswer} 
-              errorMessage={errorMessage} 
-              successAnswer={successAnswer} 
-              disableButton={disableButton}
-              rightAnswer={rightAnswer}
-              handleNextLevel={handleNextLevel}
-            />
-          </div>
+          <GamePanel 
+            level={level} 
+            category={category} 
+            trySubmit={trySubmit} 
+            skipWord={skipWord} 
+            shuffleWord={shuffleWord} 
+            handleSubmitAnswer={handleSubmitAnswer} 
+            handleSkip={handleSkip} 
+            answer={answer} 
+            setAnswer={setAnswer} 
+            errorMessage={errorMessage} 
+            successAnswer={successAnswer} 
+            disableButton={disableButton}
+            rightAnswer={rightAnswer}
+            handleNextLevel={handleNextLevel}
+          />
 
           <div className='grid grid-cols-1 gap-4 backdrop-blur-xl bg-white/90 p-4 rounded-md shadow-md w-auto xl:w-96'>
             <p className="text-3xl font-bold text-gray-700">Game status:</p>
