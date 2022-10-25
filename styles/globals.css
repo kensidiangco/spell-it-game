@@ -9,3 +9,23 @@
   -o-background-size: cover;
   background-size: cover;
 }
+.about-page {
+    background: url('/bg.png') no-repeat fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+::-webkit-scrollbar{
+  width: 0.9vw;
+  background: #777;
+}
+::-webkit-scrollbar-thumb{
+  background: -webkit-linear-gradient(transparent,#30ff00);
+  background: linear-gradient(transparent,#30ff00);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover{
+ background: -webkit-linear-gradient(transparent,#00c6ff);
+ background: linear-gradient(transparent,#00c6ff); 
+}
