@@ -4,7 +4,7 @@ function StartPage({handleSubmit, getAge, setGetAge}) {
     return (
         <div className="drop-shadow-2xl text-center flex flex-col gap-6 font-helvetica">
   
-          <p className="text-4xl xl:text-[75px] text-[#C2D515] font-bold drop-shadow-xl mt-32">LET'S PLAY SPELL IT!</p>
+          <p className="text-4xl xl:text-[75px] text-[#C2D515] font-bold drop-shadow-xl mt-32">LET&#39;S PLAY SPELL IT!</p>
           
           <p className="text-xl font-bold text-[#C2D515]">Input your age before you can play!</p>
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-4 justify-center items-center">
